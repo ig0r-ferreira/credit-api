@@ -1,7 +1,11 @@
 package me.dio.credit.api.controller
 
 import me.dio.credit.api.dto.CustomerDTO
+import me.dio.credit.api.dto.CustomerView
 import me.dio.credit.api.service.impl.CustomerService
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -17,4 +21,12 @@ class CustomerResource (
         val customerEmail = this.customerService.save(customerDTO.toEntity()).email
         return "Customer $customerEmail saved!"
     }
+
+    @GetMapping("/id")
+    fun getCustomer(@PathVariable id: Long): CustomerView {
+        return CustomerView(this.customerService.findById(id))
+    }
+
+    @DeleteMapping("/id")
+    fun deleteCustomer(@PathVariable id: Long) = this.customerService.delete(id)
 }
