@@ -24,15 +24,15 @@ class CustomerResource (
         return "Customer $customerEmail saved!"
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     fun getCustomer(@PathVariable id: Long): CustomerView {
         return CustomerView(this.customerService.findById(id))
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     fun deleteCustomer(@PathVariable id: Long) = this.customerService.delete(id)
 
-    @PatchMapping("/id")
+    @PatchMapping("/{id}")
     fun updateCustomer(@PathVariable id: Long, @RequestBody customer: CustomerUpdateDTO): CustomerView {
         return CustomerView(this.customerService.save(customer.toEntity(this.customerService.findById(id))))
     }
