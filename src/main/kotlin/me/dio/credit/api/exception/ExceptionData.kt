@@ -6,5 +6,5 @@ data class ExceptionData(
     val message: String,
     val timestamp: LocalDateTime,
     val exception: String,
-    val details: List<Any>? = null
+    val details: List<Any?>? = null
 )

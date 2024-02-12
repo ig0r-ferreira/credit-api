@@ -1,5 +1,6 @@
 package me.dio.credit.api.controller
 
+import jakarta.validation.Valid
 import me.dio.credit.api.dto.CreditDTO
 import me.dio.credit.api.dto.CreditView
 import me.dio.credit.api.entity.Credit
@@ -22,12 +23,11 @@ class CreditResource(
     private val creditService: CreditService
 ) {
     @PostMapping
-    fun create(@RequestBody creditDTO: CreditDTO): ResponseEntity<String> {
+    fun create(@RequestBody @Valid creditDTO: CreditDTO): ResponseEntity<String> {
         val credit = this.creditService.save(creditDTO.toEntity())
-        val customer = credit.customer
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body("Credit code: ${credit.creditCode} - Customer: ${customer?.firstName} ${customer?.lastName} saved!")
+            .body("Credit code: ${credit.creditCode} - Customer: ${credit.customer?.email} saved!")
     }
 
     @GetMapping
