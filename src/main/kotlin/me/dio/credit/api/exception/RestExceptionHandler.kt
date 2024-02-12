@@ -19,4 +19,28 @@ class RestExceptionHandler {
                 )
             )
     }
+
+    @ExceptionHandler(CreditCodeNotFoundException::class)
+    fun handlerCreditCodeNotFoundException(ex: CreditCodeNotFoundException): ResponseEntity<ExceptionData> {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            .body(
+                ExceptionData(
+                    message = ex.message,
+                    timestamp = LocalDateTime.now(),
+                    exception = ex.javaClass.toString(),
+                )
+            )
+    }
+
+    @ExceptionHandler(UserAccessForbiddenException::class)
+    fun handlerUserAccessForbiddenException(ex: UserAccessForbiddenException): ResponseEntity<ExceptionData> {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+            .body(
+                ExceptionData(
+                    message = ex.message,
+                    timestamp = LocalDateTime.now(),
+                    exception = ex.javaClass.toString(),
+                )
+            )
+    }
 }

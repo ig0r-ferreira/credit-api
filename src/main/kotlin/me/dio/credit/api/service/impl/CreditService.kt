@@ -1,6 +1,8 @@
 package me.dio.credit.api.service.impl
 
 import me.dio.credit.api.entity.Credit
+import me.dio.credit.api.exception.CreditCodeNotFoundException
+import me.dio.credit.api.exception.UserAccessForbiddenException
 import me.dio.credit.api.repository.CreditRepository
 import me.dio.credit.api.service.ICreditService
 import org.springframework.stereotype.Service
@@ -23,10 +25,10 @@ class CreditService (
 
     override fun findByCreditCode(customerId: Long, creditCode: UUID): Credit {
         val credit: Credit = this.creditRepository.findByCreditCode(creditCode)
-            ?: throw RuntimeException("CreditCode $creditCode not found.")
+            ?: throw CreditCodeNotFoundException()
 
         if (credit.customer?.id != customerId) {
-            throw RuntimeException("Unauthorized access. Contact the admin.")
+            throw UserAccessForbiddenException()
         }
 
         return credit
