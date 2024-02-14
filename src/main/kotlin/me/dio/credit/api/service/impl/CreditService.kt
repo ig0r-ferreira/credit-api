@@ -2,18 +2,21 @@ package me.dio.credit.api.service.impl
 
 import me.dio.credit.api.entity.Credit
 import me.dio.credit.api.exception.CreditCodeNotFoundException
+import me.dio.credit.api.exception.InvalidDateException
 import me.dio.credit.api.exception.UserAccessForbiddenException
 import me.dio.credit.api.repository.CreditRepository
 import me.dio.credit.api.service.ICreditService
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 import java.util.*
 
 @Service
-class CreditService (
+class CreditService(
     private val creditRepository: CreditRepository,
     private val customerService: CustomerService
-): ICreditService {
+) : ICreditService {
     override fun save(credit: Credit): Credit {
+        this.validDayFirstInstallment(credit.dayFirstInstallment)
         credit.apply {
             customer = customerService.findById(credit.customer?.id!!)
         }
@@ -32,5 +35,12 @@ class CreditService (
         }
 
         return credit
+    }
+
+    private fun validDayFirstInstallment(dayFirstInstallment: LocalDate): Boolean {
+        if (dayFirstInstallment.isAfter(LocalDate.now().plusMonths(3))) {
+            throw InvalidDateException("The date is greater than 3 months from now.")
+        }
+        return true
     }
 }

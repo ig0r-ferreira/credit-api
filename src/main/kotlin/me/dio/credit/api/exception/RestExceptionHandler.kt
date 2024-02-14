@@ -29,8 +29,20 @@ class RestExceptionHandler {
             )
     }
 
+    @ExceptionHandler(InvalidDateException::class)
+    fun handlerInvalidDateException(ex: InvalidDateException): ResponseEntity<ExceptionData> {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(
+                ExceptionData(
+                    timestamp = LocalDateTime.now(),
+                    exception = ex.javaClass.toString(),
+                    message = ex.message
+                )
+            )
+    }
+
     @ExceptionHandler(DataAccessException::class)
-    fun handlerValidException(ex: DataAccessException): ResponseEntity<ExceptionData> {
+    fun handlerDataAccessException(ex: DataAccessException): ResponseEntity<ExceptionData> {
         return ResponseEntity.status(HttpStatus.CONFLICT)
             .body(
                 ExceptionData(
