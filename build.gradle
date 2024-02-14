@@ -27,6 +27,7 @@ dependencies {
 	implementation 'org.flywaydb:flyway-core'
 	implementation 'org.jetbrains.kotlin:kotlin-reflect'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+	testImplementation "io.mockk:mockk:1.13.9"
 	runtimeOnly 'com.h2database:h2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
